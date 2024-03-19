@@ -22,6 +22,7 @@ public class ComplexKey {
 
         if (!isComplex) {
             this.simpleBinding = complexBinding.get(0);
+            this.complexBinding = null;
         }
     }
 
