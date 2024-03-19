@@ -3,3 +3,4 @@ Have you ever been to bedrock and you didn't want to dig back up? Have you ever 
 Notes:
 - This is a client-side mod
 - You do not need to activate cheats or use the console, unlike the "/kill" command
+- Keybind setting in Options -> Controls -> Key Binds
