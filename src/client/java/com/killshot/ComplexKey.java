@@ -10,7 +10,7 @@ import java.util.List;
 public class ComplexKey {
     private List<KeyBinding> complexBinding;
     private KeyBinding simpleBinding;
-    private boolean isComplex;
+    private final boolean isComplex;
 
     ComplexKey(List<KeyBinding> complexBinding) throws KillshotException {
         if (complexBinding.isEmpty()) {
@@ -33,7 +33,7 @@ public class ComplexKey {
     }
 
     static String getDefaultTranslationName() {
-        return "key.killshot.kill";
+        return "Shoot the shot";
     }
 
     static InputUtil.Type getDefaultType() {
@@ -49,7 +49,7 @@ public class ComplexKey {
                 getDefaultTranslationName(),
                 getDefaultType(),
                 getDefaultKeycode(),
-                "category.example.test"
+                "Killshot"
         );
     }
 
