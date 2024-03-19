@@ -3,7 +3,7 @@
 	"package": "com.killshot.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+      "ServerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
