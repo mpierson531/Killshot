@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "killshot",
+	"version": "${version}",
+	"name": "Killshot",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/killshot/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.killshot.Killshot"
+		],
+		"client": [
+			"com.killshot.KillshotClient"
+		]
+	},
+	"mixins": [
+		"killshot.mixins.json",
+		{
+			"config": "killshot.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.7",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-key-binding-api-v1": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
