@@ -32,7 +32,7 @@ public class ComplexKey {
         this.isComplex = false;
     }
 
-    static String getDefaultTranslationName() {
+    static String getDefaultBindingName() {
         return "Shoot the shot";
     }
 
@@ -46,7 +46,7 @@ public class ComplexKey {
 
     private static KeyBinding getDefaultBaseBinding() {
         return new KeyBinding(
-                getDefaultTranslationName(),
+                getDefaultBindingName(),
                 getDefaultType(),
                 getDefaultKeycode(),
                 "Killshot"
