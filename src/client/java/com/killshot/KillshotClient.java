@@ -51,10 +51,6 @@ public class KillshotClient implements ClientModInitializer {
 		}
 	}
 
-	private abstract class KillshotPlayerEntity {
-		ClientPlayerEntity player;
-	}
-
 	KeyBinding keyBinding;
 	MinecraftServer server;
 	PlayerEntity playerEntity;
@@ -87,7 +83,11 @@ public class KillshotClient implements ClientModInitializer {
 		}
 	}
 
-	// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+	private void kill() {
+		playerEntity.kill();
+		playerEntity = getPlayer();
+	}
+
 	@Override
 	public void onInitializeClient() {
 		keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -111,8 +111,7 @@ public class KillshotClient implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (keyBinding.wasPressed()) {
-				playerEntity.kill();
-				playerEntity = getPlayer();
+				kill();
 			}
 		});
 
