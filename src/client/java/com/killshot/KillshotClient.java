@@ -19,7 +19,7 @@ public class KillshotClient implements ClientModInitializer {
 
 	private void registerClientPlayer(MinecraftServer server) throws KillshotException {
 		try {
-			Killshot.logInfo("Attempting to register client player...");
+			Killshot.logInfo("Attempting to initialize client player...");
 			this.server = server;
 			playerName = MinecraftClient.getInstance().getSession().getUsername();
 			playerEntity = getPlayer();
@@ -30,6 +30,16 @@ public class KillshotClient implements ClientModInitializer {
 		if (playerEntity == null) {
 			throw new KillshotException("While registering player entity: ", "player entity was null");
 		}
+
+		Killshot.logInfo("Player entity initialized!");
+	}
+
+	private void initBinding() {
+		Killshot.logInfo("Initializing kill key");
+
+		binding = ComplexKey.getDefaultBinding().register();
+
+		Killshot.logInfo("Kill key initialized!");
 	}
 
 	private void kill() {
@@ -39,16 +49,11 @@ public class KillshotClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		// TODO: IMPLEMENT SAVING/LOADING SAVED KEYBINDINGS
-
-		binding = ComplexKey.getDefaultBinding().register();
-
-		Killshot.logInfo("Registered kill key!");
+		initBinding();
 
 		ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
 			try {
 				registerClientPlayer(client.getServer());
-				Killshot.logInfo("Registered player!");
 			} catch (KillshotException ke) {
 				Killshot.logError(ke.finalMessage);
 				Killshot.logError("Killshot will not work!");
