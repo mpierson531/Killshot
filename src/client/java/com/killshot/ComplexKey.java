@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ComplexKey {
     private List<KeyBinding> complexBinding;
-    private KeyBinding simpleBinding;
+    private final KeyBinding simpleBinding;
     private final boolean isComplex;
 
     ComplexKey(List<KeyBinding> complexBinding) throws KillshotException {
