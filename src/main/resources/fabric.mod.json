@@ -1,4 +1,15 @@
 {
+	"custom": {
+		"modmenu": {
+			"links": {
+				"Read Me": "https://github.com/mpierson531/Killshot_Fabric/blob/master/README.md",
+				"License": "https://github.com/mpierson531/Killshot_Fabric/blob/master/LICENSE"
+			},
+
+			"update_checker": true
+		}
+	},
+
 	"schemaVersion": 1,
 	"id": "killshot",
 	"version": "${version}",
