@@ -1,17 +1,20 @@
 package com.killshot;
 
+import com.killshot.config.KillshotConfigModel;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.GameRules;
 
 public class KillshotClient implements ClientModInitializer {
 	ComplexKey binding;
 	MinecraftServer server;
 	PlayerEntity playerEntity;
 	String playerName;
+	public static KillshotConfigModel config;
 
 	private PlayerEntity getPlayer() {
 		return server.getPlayerManager().getPlayer(playerName);
@@ -47,8 +50,18 @@ public class KillshotClient implements ClientModInitializer {
 		playerEntity = getPlayer();
 	}
 
+	private void respawn() {
+		final GameRules gameRules = server.getGameRules();
+		final GameRules.BooleanRule immediateRespawnKey = gameRules.get(GameRules.DO_IMMEDIATE_RESPAWN);
+
+		immediateRespawnKey.set(true, server);
+		kill();
+		immediateRespawnKey.set(false, server);
+	}
+
 	@Override
 	public void onInitializeClient() {
+		config = KillshotConfigModel.init();
 		initBinding();
 
 		ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
@@ -61,8 +74,16 @@ public class KillshotClient implements ClientModInitializer {
 		});
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			if (!config.isEnabled()) {
+				return;
+			}
+
 			if (binding.isPressed()) {
-				kill();
+				if (config.respawnImmediately()) {
+					respawn();
+				} else {
+					kill();
+				}
 			}
 		});
 

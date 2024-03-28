@@ -2,8 +2,10 @@
 	"custom": {
 		"modmenu": {
 			"links": {
+				"License": "https://github.com/mpierson531/Killshot_Fabric/blob/master/LICENSE",
 				"Read Me": "https://github.com/mpierson531/Killshot_Fabric/blob/master/README.md",
-				"License": "https://github.com/mpierson531/Killshot_Fabric/blob/master/LICENSE"
+				"Github": "https://github.com/mpierson531",
+				"Buy Me A Coffee": "https://www.buymeacoffee.com/mpierson531"
 			},
 
 			"update_checker": true
@@ -19,7 +21,7 @@
 		"mpierson531"
 	],
 	"contact": {
-		"homepage": "",
+		"homepage": "https://github.com/mpierson531",
 		"sources": "https://github.com/mpierson531/Killshot_Fabric",
 		"issues": "https://github.com/mpierson531/Killshot_Fabric/issues"
 	},
@@ -32,6 +34,9 @@
 		],
 		"client": [
 			"com.killshot.KillshotClient"
+		],
+		"modmenu": [
+			"com.killshot.config.modmenu_impls.ModMenuApiImpl"
 		]
 	},
 	"mixins": [
