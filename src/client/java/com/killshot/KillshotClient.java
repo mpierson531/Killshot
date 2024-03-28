@@ -51,8 +51,7 @@ public class KillshotClient implements ClientModInitializer {
 	}
 
 	private void respawn() {
-		final GameRules gameRules = server.getGameRules();
-		final GameRules.BooleanRule immediateRespawnKey = gameRules.get(GameRules.DO_IMMEDIATE_RESPAWN);
+		final GameRules.BooleanRule immediateRespawnKey = server.getGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN);
 
 		immediateRespawnKey.set(true, server);
 		kill();

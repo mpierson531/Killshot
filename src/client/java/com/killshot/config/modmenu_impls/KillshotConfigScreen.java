@@ -61,7 +61,7 @@ public class KillshotConfigScreen extends Screen {
     }
 
     private int getDoneY() {
-        return height - 28;
+        return super.height - 28;
     }
 
     protected KillshotConfigScreen(Screen parent) {
@@ -113,7 +113,7 @@ public class KillshotConfigScreen extends Screen {
                 .build();
 
         TextWidget label = new TextWidget(Text.literal("Killshot Config"), MinecraftClient.getInstance().textRenderer);
-        label.setDimensionsAndPosition(100, 20, width / 2 - 50, 10);
+        label.setDimensionsAndPosition(100, 20, super.width / 2 - 50, 10);
         label.alignCenter();
 
         super.addDrawableChild(label);
