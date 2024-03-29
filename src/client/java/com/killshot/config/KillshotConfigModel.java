@@ -56,7 +56,7 @@ public class KillshotConfigModel {
         return config;
     }
 
-    public KillshotConfigModel(final boolean isEnabled, final boolean respawnImmediately) {
+    private KillshotConfigModel(final boolean isEnabled, final boolean respawnImmediately) {
         this.isEnabled = isEnabled;
         this.respawnImmediately = respawnImmediately;
     }
