@@ -11,21 +11,19 @@ import net.minecraft.world.GameRules;
 
 public class KillshotClient implements ClientModInitializer {
 	ComplexKey binding;
-	MinecraftServer server;
 	PlayerEntity playerEntity;
 	String playerName;
 	public static KillshotConfigModel config;
 
-	private PlayerEntity getPlayer() {
+	private PlayerEntity getPlayer(final MinecraftServer server) {
 		return server.getPlayerManager().getPlayer(playerName);
 	}
 
-	private void registerClientPlayer(MinecraftServer server) throws KillshotException {
+	private void registerClientPlayer(final MinecraftServer server) throws KillshotException {
 		try {
 			Killshot.logInfo("Attempting to initialize client player...");
-			this.server = server;
 			playerName = MinecraftClient.getInstance().getSession().getUsername();
-			playerEntity = getPlayer();
+			playerEntity = getPlayer(server);
 		} catch (Exception e) {
 			throw new KillshotException("Exception caught while registering player: ", e.getMessage());
 		}
@@ -45,16 +43,16 @@ public class KillshotClient implements ClientModInitializer {
 		Killshot.logInfo("Kill key initialized!");
 	}
 
-	private void kill() {
+	private void kill(final MinecraftServer server) {
 		playerEntity.kill();
-		playerEntity = getPlayer();
+		playerEntity = getPlayer(server);
 	}
 
-	private void respawn() {
+	private void respawn(final MinecraftServer server) {
 		final GameRules.BooleanRule immediateRespawnKey = server.getGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN);
 
 		immediateRespawnKey.set(true, server);
-		kill();
+		kill(server);
 		immediateRespawnKey.set(false, server);
 	}
 
@@ -79,9 +77,9 @@ public class KillshotClient implements ClientModInitializer {
 
 			if (binding.isPressed()) {
 				if (config.respawnImmediately()) {
-					respawn();
+					respawn(client.getServer());
 				} else {
-					kill();
+					kill(client.getServer());
 				}
 			}
 		});

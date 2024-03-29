@@ -8,7 +8,7 @@ import org.lwjgl.glfw.GLFW;
 public class ComplexKey {
     private final KeyBinding simpleBinding;
 
-    ComplexKey(KeyBinding simpleBinding) {
+    ComplexKey(final KeyBinding simpleBinding) {
         this.simpleBinding = simpleBinding;
     }
 
@@ -34,7 +34,7 @@ public class ComplexKey {
     }
 
     static ComplexKey getDefaultBinding() {
-        KeyBinding defaultBase = getDefaultBaseBinding();
+        final KeyBinding defaultBase = getDefaultBaseBinding();
         return new ComplexKey(defaultBase);
     }
 
