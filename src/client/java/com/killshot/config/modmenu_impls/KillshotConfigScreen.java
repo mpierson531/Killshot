@@ -32,8 +32,12 @@ public class KillshotConfigScreen extends Screen {
         return (super.height / 2) - (BUTTON_HEIGHT / 2);
     }
 
+    private static String enabledToString(final boolean enabled) {
+        return enabled ? "Disable" : "Enable";
+    }
+
     private static Tooltip getEnabledTooltip() {
-        return Tooltip.of(Text.literal((KillshotClient.config.isEnabled() ? "Disable" : "Enable") + " Killshot"));
+        return Tooltip.of(Text.literal(enabledToString(KillshotClient.config.isEnabled()) + " Killshot"));
     }
 
     private static Text getEnabledButtonText() {
@@ -49,7 +53,7 @@ public class KillshotConfigScreen extends Screen {
     }
 
     private static Tooltip getRespawnImmediatelyTooltip() {
-        return Tooltip.of(Text.literal((KillshotClient.config.respawnImmediately() ? "Disable" : "Enable") + " respawning immediately when Killshot is activated"));
+        return Tooltip.of(Text.literal(enabledToString(KillshotClient.config.respawnImmediately()) + " respawning immediately when Killshot is activated"));
     }
 
     private static Text getRespawnImmediatelyButtonText() {
