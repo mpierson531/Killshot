@@ -48,8 +48,8 @@ public class KillshotConfigScreen extends Screen {
         return enabledButton.getY() + BUTTON_HEIGHT + VERTICAL_SPACING;
     }
 
-    private static Tooltip getRespawnTooltip() {
-        return Tooltip.of(Text.literal("Respawn/don't respawn when Killshot key is pressed"));
+    private static Tooltip getRespawnImmediatelyTooltip() {
+        return Tooltip.of(Text.literal((KillshotClient.config.respawnImmediately() ? "Disable" : "Enable") + " respawning immediately when Killshot is activated"));
     }
 
     private static Text getRespawnImmediatelyButtonText() {
@@ -86,6 +86,7 @@ public class KillshotConfigScreen extends Screen {
             KillshotClient.config.respawnImmediately(!KillshotClient.config.respawnImmediately());
             KillshotClient.config.saveToFile();
             respawnImmediatelyButton.setMessage(getRespawnImmediatelyButtonText());
+            respawnImmediatelyButton.setTooltip(getRespawnImmediatelyTooltip());
         } catch (IOException e) {
             Killshot.logError("While saving config: " + e.getMessage());
         }
@@ -105,7 +106,7 @@ public class KillshotConfigScreen extends Screen {
 
         respawnImmediatelyButton = ButtonWidget.builder(respawnImmediatelyButtonText, button -> respawnImmediatelyOnClick())
                 .dimensions(getRespawnX(), getRespawnY(), BUTTON_WIDTH, BUTTON_HEIGHT)
-                .tooltip(getRespawnTooltip())
+                .tooltip(getRespawnImmediatelyTooltip())
                 .build();
 
         doneButton = ButtonWidget.builder(Text.literal("Done"), button -> close())
