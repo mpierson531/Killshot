@@ -19,11 +19,11 @@ public class KillshotClient implements ClientModInitializer {
 		return server.getPlayerManager().getPlayer(playerName);
 	}
 
-	private void registerClientPlayer(final MinecraftServer server) throws KillshotException {
+	private void registerClientPlayer(final MinecraftClient client) throws KillshotException {
 		try {
 			Killshot.logInfo("Attempting to initialize client player...");
-			playerName = MinecraftClient.getInstance().getSession().getUsername();
-			playerEntity = getPlayer(server);
+			playerName = client.getSession().getUsername();
+			playerEntity = getPlayer(client.getServer());
 		} catch (Exception e) {
 			throw new KillshotException("Exception caught while registering player: ", e.getMessage());
 		}
@@ -63,7 +63,7 @@ public class KillshotClient implements ClientModInitializer {
 
 		ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
 			try {
-				registerClientPlayer(client.getServer());
+				registerClientPlayer(client);
 			} catch (KillshotException ke) {
 				Killshot.logError(ke.finalMessage);
 				Killshot.logError("Killshot will not work!");
