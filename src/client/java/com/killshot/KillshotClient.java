@@ -10,10 +10,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
 
 public class KillshotClient implements ClientModInitializer {
-	ComplexKey binding;
-	PlayerEntity playerEntity;
-	String playerName;
-	public static KillshotConfigModel config;
+	private ComplexKey binding;
+	private PlayerEntity playerEntity;
+	private String playerName;
+	private KillshotConfigModel config;
+	private static KillshotClient instance;
+
+	public static KillshotClient getInstance() {
+		return instance;
+	}
 
 	private PlayerEntity getPlayer(final MinecraftServer server) {
 		return server.getPlayerManager().getPlayer(playerName);
@@ -43,12 +48,12 @@ public class KillshotClient implements ClientModInitializer {
 		Killshot.logInfo("Kill key initialized!");
 	}
 
-	private void kill(final MinecraftServer server) {
+	public void kill(final MinecraftServer server) {
 		playerEntity.kill();
 		playerEntity = getPlayer(server);
 	}
 
-	private void respawn(final MinecraftServer server) {
+	public void respawn(final MinecraftServer server) {
 		final GameRules.BooleanRule immediateRespawnKey = server.getGameRules().get(GameRules.DO_IMMEDIATE_RESPAWN);
 
 		immediateRespawnKey.set(true, server);
@@ -56,9 +61,15 @@ public class KillshotClient implements ClientModInitializer {
 		immediateRespawnKey.set(false, server);
 	}
 
+	public KillshotConfigModel getConfig() {
+		return config;
+	}
+
 	@Override
 	public void onInitializeClient() {
+		instance = this;
 		config = KillshotConfigModel.init();
+
 		initBinding();
 
 		ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {

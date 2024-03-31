@@ -2,6 +2,7 @@ package com.killshot.config.modmenu_impls;
 
 import com.killshot.Killshot;
 import com.killshot.KillshotClient;
+import com.killshot.config.KillshotConfigModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -37,11 +38,11 @@ public class KillshotConfigScreen extends Screen {
     }
 
     private static Tooltip getEnabledTooltip() {
-        return Tooltip.of(Text.literal(enabledToString(KillshotClient.config.isEnabled()) + " Killshot"));
+        return Tooltip.of(Text.literal(enabledToString(KillshotClient.getInstance().getConfig().isEnabled()) + " Killshot"));
     }
 
     private static Text getEnabledButtonText() {
-        return Text.literal("Enabled: " + String.valueOf(KillshotClient.config.isEnabled()));
+        return Text.literal("Enabled: " + String.valueOf(KillshotClient.getInstance().getConfig().isEnabled()));
     }
 
     private int getRespawnX() {
@@ -53,11 +54,11 @@ public class KillshotConfigScreen extends Screen {
     }
 
     private static Tooltip getRespawnImmediatelyTooltip() {
-        return Tooltip.of(Text.literal(enabledToString(KillshotClient.config.respawnImmediately()) + " respawning immediately when Killshot is activated"));
+        return Tooltip.of(Text.literal(enabledToString(KillshotClient.getInstance().getConfig().respawnImmediately()) + " respawning immediately when Killshot is activated"));
     }
 
     private static Text getRespawnImmediatelyButtonText() {
-        return Text.literal("Respawn immediately: " + String.valueOf(KillshotClient.config.respawnImmediately()));
+        return Text.literal("Respawn immediately: " + String.valueOf(KillshotClient.getInstance().getConfig().respawnImmediately()));
     }
 
     private int getDoneX() {
@@ -76,8 +77,10 @@ public class KillshotConfigScreen extends Screen {
 
     private void isEnabledOnClick() {
         try {
-            KillshotClient.config.isEnabled(!KillshotClient.config.isEnabled());
-            KillshotClient.config.saveToFile();
+            final KillshotConfigModel config = KillshotClient.getInstance().getConfig();
+            config.isEnabled(!config.isEnabled());
+            config.saveToFile();
+
             enabledButton.setMessage(getEnabledButtonText());
             enabledButton.setTooltip(getEnabledTooltip());
         } catch (IOException e) {
@@ -87,8 +90,10 @@ public class KillshotConfigScreen extends Screen {
 
     private void respawnImmediatelyOnClick() {
         try {
-            KillshotClient.config.respawnImmediately(!KillshotClient.config.respawnImmediately());
-            KillshotClient.config.saveToFile();
+            final KillshotConfigModel config = KillshotClient.getInstance().getConfig();
+            config.respawnImmediately(!config.respawnImmediately());
+            config.saveToFile();
+
             respawnImmediatelyButton.setMessage(getRespawnImmediatelyButtonText());
             respawnImmediatelyButton.setTooltip(getRespawnImmediatelyTooltip());
         } catch (IOException e) {

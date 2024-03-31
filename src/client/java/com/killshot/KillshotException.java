@@ -1,6 +1,6 @@
 package com.killshot;
 
-class KillshotException extends Throwable {
+public class KillshotException extends Throwable {
     String prologue = "";
     String message = "";
     String finalMessage = "";
