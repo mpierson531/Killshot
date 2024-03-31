@@ -17,17 +17,15 @@ import java.io.IOException;
 @Environment(EnvType.CLIENT)
 public class KillshotConfigScreen extends Screen {
     protected Screen parent;
+
     protected ButtonWidget enabledButton;
     protected ButtonWidget respawnImmediatelyButton;
+
     protected ButtonWidget doneButton;
 
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 20;
     private static final int VERTICAL_SPACING = 5;
-
-    private int getEnabledX() {
-        return (super.width / 2) - (BUTTON_WIDTH / 2);
-    }
 
     private int getEnabledY() {
         return (super.height / 2) - (BUTTON_HEIGHT / 2);
@@ -45,11 +43,7 @@ public class KillshotConfigScreen extends Screen {
         return Text.literal("Enabled: " + String.valueOf(KillshotClient.getInstance().getConfig().isEnabled()));
     }
 
-    private int getRespawnX() {
-        return enabledButton.getX();
-    }
-
-    private int getRespawnY() {
+    private int getRespawnImmediatelyY() {
         return enabledButton.getY() + BUTTON_HEIGHT + VERTICAL_SPACING;
     }
 
@@ -59,10 +53,6 @@ public class KillshotConfigScreen extends Screen {
 
     private static Text getRespawnImmediatelyButtonText() {
         return Text.literal("Respawn immediately: " + String.valueOf(KillshotClient.getInstance().getConfig().respawnImmediately()));
-    }
-
-    private int getDoneX() {
-        return enabledButton.getX();
     }
 
     private int getDoneY() {
@@ -105,21 +95,23 @@ public class KillshotConfigScreen extends Screen {
     protected void init() {
         super.init();
 
+        final int x = (super.width / 2) - (BUTTON_WIDTH / 2);
+
         final Text enabledButtonText = getEnabledButtonText();
         final Text respawnImmediatelyButtonText = getRespawnImmediatelyButtonText();
 
         enabledButton = ButtonWidget.builder(enabledButtonText, button -> isEnabledOnClick())
-                .dimensions(getEnabledX(), getEnabledY(), BUTTON_WIDTH, BUTTON_HEIGHT)
+                .dimensions(x, getEnabledY(), BUTTON_WIDTH, BUTTON_HEIGHT)
                 .tooltip(getEnabledTooltip())
                 .build();
 
         respawnImmediatelyButton = ButtonWidget.builder(respawnImmediatelyButtonText, button -> respawnImmediatelyOnClick())
-                .dimensions(getRespawnX(), getRespawnY(), BUTTON_WIDTH, BUTTON_HEIGHT)
+                .dimensions(x, getRespawnImmediatelyY(), BUTTON_WIDTH, BUTTON_HEIGHT)
                 .tooltip(getRespawnImmediatelyTooltip())
                 .build();
 
         doneButton = ButtonWidget.builder(Text.literal("Done"), button -> close())
-                .dimensions(getDoneX(), getDoneY(), BUTTON_WIDTH, BUTTON_HEIGHT)
+                .dimensions(x, getDoneY(), BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build();
 
         TextWidget label = new TextWidget(Text.literal("Killshot Config"), MinecraftClient.getInstance().textRenderer);
@@ -127,8 +119,10 @@ public class KillshotConfigScreen extends Screen {
         label.alignCenter();
 
         super.addDrawableChild(label);
+
         super.addDrawableChild(enabledButton);
         super.addDrawableChild(respawnImmediatelyButton);
+
         super.addDrawableChild(doneButton);
     }
 

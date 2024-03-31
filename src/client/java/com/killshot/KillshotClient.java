@@ -14,6 +14,7 @@ public class KillshotClient implements ClientModInitializer {
 	private PlayerEntity playerEntity;
 	private String playerName;
 	private KillshotConfigModel config;
+
 	private static KillshotClient instance;
 
 	public static KillshotClient getInstance() {
