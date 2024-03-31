@@ -20,12 +20,17 @@ public class KillshotConfigScreen extends Screen {
 
     protected ButtonWidget enabledButton;
     protected ButtonWidget respawnImmediatelyButton;
+    protected ButtonWidget killButton;
+    protected ButtonWidget respawnButton;
 
     protected ButtonWidget doneButton;
 
-    private static final int BUTTON_WIDTH = 150;
-    private static final int BUTTON_HEIGHT = 20;
     private static final int VERTICAL_SPACING = 5;
+    private static final int HORIZONTAL_SPACING = 5;
+    private static final int BUTTON_WIDTH = 150;
+    private static final int HALF_BUTTON_WIDTH = BUTTON_WIDTH / 2;
+    private static final int HALF_BUTTON_WIDTH_W_SPACING = HALF_BUTTON_WIDTH - HORIZONTAL_SPACING;
+    private static final int BUTTON_HEIGHT = 20;
 
     private int getEnabledY() {
         return (super.height / 2) - (BUTTON_HEIGHT / 2);
@@ -53,6 +58,34 @@ public class KillshotConfigScreen extends Screen {
 
     private static Text getRespawnImmediatelyButtonText() {
         return Text.literal("Respawn immediately: " + String.valueOf(KillshotClient.getInstance().getConfig().respawnImmediately()));
+    }
+
+    private int getKillY() {
+        return respawnImmediatelyButton.getY() + BUTTON_HEIGHT + VERTICAL_SPACING;
+    }
+
+    private static Text getKillText() {
+        return Text.literal("Kill");
+    }
+
+    private static Tooltip getKillTooltip() {
+        return Tooltip.of(Text.literal("Kill yourself"));
+    }
+
+    private int getRespawnX() {
+        return killButton.getX() + HALF_BUTTON_WIDTH + HORIZONTAL_SPACING;
+    }
+
+    private int getRespawnY() {
+        return killButton.getY();
+    }
+
+    private static Text getRespawnText() {
+        return Text.literal("Respawn");
+    }
+
+    private static Tooltip getRespawnTooltip() {
+        return Tooltip.of(Text.literal("Kill yourself and respawn"));
     }
 
     private int getDoneY() {
@@ -99,6 +132,10 @@ public class KillshotConfigScreen extends Screen {
 
         final Text enabledButtonText = getEnabledButtonText();
         final Text respawnImmediatelyButtonText = getRespawnImmediatelyButtonText();
+        final Text killText = getKillText();
+        final Text respawnText = getRespawnText();
+
+        final int doneY = getDoneY();
 
         enabledButton = ButtonWidget.builder(enabledButtonText, button -> isEnabledOnClick())
                 .dimensions(x, getEnabledY(), BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -110,11 +147,23 @@ public class KillshotConfigScreen extends Screen {
                 .tooltip(getRespawnImmediatelyTooltip())
                 .build();
 
+        if (KillshotClient.getInstance().isInWorld()) {
+            killButton = ButtonWidget.builder(killText, button -> KillshotClient.getInstance().kill(MinecraftClient.getInstance().getServer()))
+                    .dimensions(x, getKillY(), HALF_BUTTON_WIDTH, BUTTON_HEIGHT)
+                    .tooltip(getKillTooltip())
+                    .build();
+
+            respawnButton = ButtonWidget.builder(respawnText, button -> KillshotClient.getInstance().respawn(MinecraftClient.getInstance().getServer()))
+                    .dimensions(getRespawnX(), getRespawnY(), HALF_BUTTON_WIDTH_W_SPACING, BUTTON_HEIGHT)
+                    .tooltip(getRespawnTooltip())
+                    .build();
+        }
+
         doneButton = ButtonWidget.builder(Text.literal("Done"), button -> close())
-                .dimensions(x, getDoneY(), BUTTON_WIDTH, BUTTON_HEIGHT)
+                .dimensions(x, doneY, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build();
 
-        final TextWidget label = new TextWidget(Text.literal("Killshot Config"), MinecraftClient.getInstance().textRenderer);
+        TextWidget label = new TextWidget(Text.literal("Killshot Config"), MinecraftClient.getInstance().textRenderer);
         label.setDimensionsAndPosition(100, 20, super.width / 2 - 50, 10);
         label.alignCenter();
 
@@ -122,6 +171,11 @@ public class KillshotConfigScreen extends Screen {
 
         super.addDrawableChild(enabledButton);
         super.addDrawableChild(respawnImmediatelyButton);
+
+        if (KillshotClient.getInstance().isInWorld()) {
+            super.addDrawableChild(killButton);
+            super.addDrawableChild(respawnButton);
+        }
 
         super.addDrawableChild(doneButton);
     }

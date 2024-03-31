@@ -14,6 +14,7 @@ public class KillshotClient implements ClientModInitializer {
 	private PlayerEntity playerEntity;
 	private String playerName;
 	private KillshotConfigModel config;
+	private boolean isInWorld;
 
 	private static KillshotClient instance;
 
@@ -66,6 +67,10 @@ public class KillshotClient implements ClientModInitializer {
 		return config;
 	}
 
+	public boolean isInWorld() {
+		return isInWorld;
+	}
+
 	@Override
 	public void onInitializeClient() {
 		instance = this;
@@ -76,10 +81,15 @@ public class KillshotClient implements ClientModInitializer {
 		ClientPlayConnectionEvents.JOIN.register((networkHandler, packetSender, client) -> {
 			try {
 				registerClientPlayer(client);
+				isInWorld = true;
 			} catch (KillshotException ke) {
 				Killshot.logError(ke.finalMessage);
 				Killshot.logError("Killshot will not work!");
 			}
+		});
+
+		ClientPlayConnectionEvents.DISCONNECT.register((clientNetworkHandler, client) -> {
+			isInWorld = false;
 		});
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
