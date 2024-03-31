@@ -50,8 +50,8 @@ public class KillshotClient implements ClientModInitializer {
 	}
 
 	public void kill(final MinecraftServer server) {
-		playerEntity.kill();
 		playerEntity = getPlayer(server);
+		playerEntity.kill();
 	}
 
 	public void respawn(final MinecraftServer server) {
@@ -87,7 +87,7 @@ public class KillshotClient implements ClientModInitializer {
 				return;
 			}
 
-			if (binding.isPressed()) {
+			if (binding.wasPressed()) {
 				if (config.respawnImmediately()) {
 					respawn(client.getServer());
 				} else {

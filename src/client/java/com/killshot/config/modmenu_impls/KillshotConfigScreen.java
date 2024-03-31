@@ -114,7 +114,7 @@ public class KillshotConfigScreen extends Screen {
                 .dimensions(x, getDoneY(), BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build();
 
-        TextWidget label = new TextWidget(Text.literal("Killshot Config"), MinecraftClient.getInstance().textRenderer);
+        final TextWidget label = new TextWidget(Text.literal("Killshot Config"), MinecraftClient.getInstance().textRenderer);
         label.setDimensionsAndPosition(100, 20, super.width / 2 - 50, 10);
         label.alignCenter();
 
