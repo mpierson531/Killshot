@@ -5,3 +5,4 @@ Notes:
 - You do not need to activate cheats or use the console, unlike the "/kill" command
 - Default keybinding is ',' or comma
 - Keybinding setting in Options -> Controls -> Key Binds -> Killshot
+- More config settings in ModMenu config screen
